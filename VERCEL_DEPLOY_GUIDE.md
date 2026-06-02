@@ -17,7 +17,7 @@ git commit -m "Initial commit"
 Create a new repository on GitHub, then:
 
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/ario-events.git
+git remote add origin https://github.com/YOUR_USERNAME/areo-events.git
 git branch -M main
 git push -u origin main
 ```
@@ -25,11 +25,11 @@ git push -u origin main
 ### 3. Import to Vercel
 1. Go to [vercel.com/new](https://vercel.com/new)
 2. Click **"Continue with GitHub"** (or your provider) and authorise
-3. Select your `ario-events` repository
+3. Select your `areo-events` repository
 4. Vercel will auto-detect it as a static project — **no build settings needed**
 5. Click **"Deploy"**
 
-That's it. Vercel will deploy instantly and give you a URL like `ario-events.vercel.app`.
+That's it. Vercel will deploy instantly and give you a URL like `areo-events.vercel.app`.
 
 ## Option 2: Deploy via Drag-and-Drop (No Git)
 
@@ -41,7 +41,7 @@ That's it. Vercel will deploy instantly and give you a URL like `ario-events.ver
 ## Setting a Custom Domain (Optional)
 
 1. In your Vercel project dashboard, go to **Settings → Domains**
-2. Enter your domain (e.g., `arioevents.com`)
+2. Enter your domain (e.g., `areoevents.com`)
 3. Follow Vercel's DNS configuration instructions for your registrar
 4. Vercel provisions SSL automatically
 

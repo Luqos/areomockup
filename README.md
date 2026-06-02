@@ -1,6 +1,6 @@
-# ARIO — We Engineer Experiences
+# AREO — We Engineer Experiences
 
-A high-energy, visually striking landing page for **ARIO**, a premier event management company based in **Ipoh, Perak, Malaysia**.
+A high-energy, visually striking landing page for **AREO**, a premier event management company based in **Ipoh, Perak, Malaysia**.
 
 Built as a single-page, fully self-contained HTML file, this landing page delivers a modern, premium brand experience inspired by high-performance motorsport and fashion aesthetics — oversized typography, neon accents, dark mode UI, and smooth scroll-triggered animations.
 
@@ -49,8 +49,8 @@ Landing Page mock up - Copy/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/ario-landing-page.git
-   cd ario-landing-page
+   git clone https://github.com/your-username/areo-landing-page.git
+   cd areo-landing-page
    ```
 
 2. **Open the landing page**
@@ -99,4 +99,4 @@ Feel free to use and adapt it for your own event management brand.
 
 ---
 
-Built with ❤️ for ARIO — Ipoh, Perak.
+Built with ❤️ for AREO — Ipoh, Perak.
