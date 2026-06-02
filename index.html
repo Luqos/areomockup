@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARIO — We Engineer Experiences</title>
+  <meta name="description" content="Premier event management company based in Ipoh, Perak. Corporate galas, music festivals, brand activations, and private VIP parties." />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GSAP via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <!-- Font Awesome 6 (Free) via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
+
+  <style>
+    /* ── Font Imports ── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Oswald:wght@500;600;700&display=swap');
+
+    /* ── Root Variables ── */
+    :root {
+      --neon: #DFFF00;
+      --neon-glow: rgba(223, 255, 0, .25);
+      --bg-dark: #000000;
+      --bg-card: #111111;
+      --bg-section: #0a0a0a;
+      --text-primary: #FFFFFF;
+      --text-secondary: #A3A3A3;
+      --font-heading: 'Oswald', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* ── Base Reset ── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Scrollbar (Webkit) ── */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--neon);
+      border-radius: 0;
+    }
+
+    /* ── Utility Classes ── */
+    .heading-xl {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .heading-lg {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .neon-text {
+      color: var(--neon);
+    }
+
+    .neon-border {
+      border: 2px solid var(--neon);
+    }
+
+    .neon-border-left {
+      border-left: 4px solid transparent;
+      transition: border-color 0.35s ease;
+    }
+    .neon-border-left:hover {
+      border-left-color: var(--neon);
+    }
+
+    .neon-hover-bg:hover {
+      background: var(--neon) !important;
+      color: #000000 !important;
+    }
+
+    /* ── Marquee ── */
+    .marquee-wrapper {
+      overflow: hidden;
+      background: var(--neon);
+      padding: 18px 0;
+      white-space: nowrap;
+      position: relative;
+    }
+    .marquee-track {
+      display: inline-flex;
+      gap: 0;
+      animation: marqueeScroll 28s linear infinite;
+    }
+    .marquee-track span {
+      display: inline-block;
+      padding: 0 40px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.25rem;
+      letter-spacing: 2px;
+      color: #000000;
+      text-transform: uppercase;
+    }
+    @keyframes marqueeScroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ── Nav Glass ── */
+    .nav-glass {
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      transition: background 0.35s ease;
+    }
+    .nav-scrolled {
+      background: rgba(0, 0, 0, 0.92);
+      border-bottom: 1px solid rgba(223, 255, 0, 0.12);
+    }
+
+    /* ── Link Underline Animation ── */
+    .nav-link {
+      position: relative;
+      display: inline-block;
+      font-weight: 500;
+      font-size: 0.875rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      transition: color 0.3s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--neon);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* ── Hero Overlay Gradient ── */
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.30) 60%, rgba(0, 0, 0, 0.70) 100%);
+    }
+
+    /* ── Button Styles ── */
+    .btn-neon-solid {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--neon);
+      color: #000000;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 1rem;
+      padding: 16px 40px;
+      border: 2px solid var(--neon);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-neon-solid:hover {
+      background: transparent;
+      color: var(--neon);
+      box-shadow: 0 0 24px var(--neon-glow);
+    }
+
+    .btn-neon-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--text-primary);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 1rem;
+      padding: 16px 40px;
+      border: 2px solid var(--neon);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-neon-outline:hover {
+      background: var(--neon);
+      color: #000000;
+      box-shadow: 0 0 24px var(--neon-glow);
+    }
+
+    /* ── Service Card ── */
+    .service-card {
+      background: var(--bg-card);
+      padding: 48px 36px;
+      border-left: 4px solid transparent;
+      transition: border-color 0.35s ease, transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 50%, rgba(223, 255, 0, 0.03));
+      pointer-events: none;
+    }
+    .service-card:hover {
+      border-left-color: var(--neon);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(223, 255, 0, 0.06);
+    }
+    .service-card .icon-wrap {
+      font-size: 2.5rem;
+      color: var(--neon);
+      margin-bottom: 24px;
+    }
+    .service-card h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .service-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* ── Featured Event Card ── */
+    .event-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: 0;
+      aspect-ratio: 4 / 3;
+    }
+    .event-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .event-card:hover img {
+      transform: scale(1.07);
+    }
+    .event-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.10) 70%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .event-card:hover .event-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .event-overlay h4 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+    }
+    .event-overlay p {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+    .event-overlay a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--neon);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-top: 12px;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease;
+      width: fit-content;
+    }
+    .event-overlay a:hover {
+      border-bottom-color: var(--neon);
+    }
+
+    /* ── CTA Section ── */
+    .cta-section {
+      background: var(--bg-card);
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: -20%;
+      width: 140%;
+      height: 200%;
+      background: radial-gradient(ellipse at center, rgba(223, 255, 0, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-email-link {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(2rem, 8vw, 6rem);
+      text-transform: uppercase;
+      line-height: 1;
+      color: var(--neon);
+      text-decoration: none;
+      transition: text-shadow 0.35s ease;
+      word-break: break-all;
+    }
+    .cta-email-link:hover {
+      text-shadow: 0 0 60px var(--neon-glow), 0 0 120px rgba(223, 255, 0, 0.10);
+    }
+
+    /* ── Footer Social Icons ── */
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .social-icon:hover {
+      border-color: var(--neon);
+      color: var(--neon);
+      background: rgba(223, 255, 0, 0.06);
+    }
+
+    /* ── Mobile Nav ── */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.97);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .mobile-menu.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-menu a {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .mobile-menu a:hover {
+      color: var(--neon);
+    }
+    .mobile-menu .close-btn {
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      font-size: 2rem;
+      color: var(--text-primary);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* ── Override some Tailwind defaults ── */
+    .container-custom {
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    /* ── Responsive tweaks ── */
+    @media (max-width: 768px) {
+      .btn-neon-solid,
+      .btn-neon-outline {
+        padding: 14px 28px;
+        font-size: 0.85rem;
+      }
+      .service-card {
+        padding: 36px 24px;
+      }
+      .event-card {
+        aspect-ratio: 3 / 2;
+      }
+      .cta-section {
+        padding: 80px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!--  MOBILE MENU                                                 -->
+  <!-- ============================================================ -->
+  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <button class="close-btn" id="closeMobileBtn" aria-label="Close menu">
+      <i class="fas fa-times"></i>
+    </button>
+    <a href="#services" class="mobile-link">Services</a>
+    <a href="#events" class="mobile-link">Past Events</a>
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+    <a href="#cta" class="btn-neon-solid" style="margin-top:12px;">Plan Your Event</a>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--  NAVIGATION                                                  -->
+  <!-- ============================================================ -->
+  <header id="navbar" class="fixed top-0 left-0 w-full z-[1000] nav-glass transition-all duration-300">
+    <div class="container-custom flex items-center justify-between h-16 md:h-20">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2 text-xl font-bold tracking-[3px] uppercase no-underline text-white">
+        <span class="text-[var(--neon)] text-2xl">◈</span>
+        <span class="font-[var(--font-heading)]">ARIO</span>
+        <span class="text-[var(--text-secondary)] font-normal text-sm hidden sm:inline">EVENTS</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-10">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#events" class="nav-link">Past Events</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#cta" class="btn-neon-solid !py-2.5 !px-6 !text-xs !font-[var(--font-body)] !font-semibold !tracking-[1.5px]">
+          Plan Your Event <i class="fas fa-arrow-right text-xs"></i>
+        </a>
+      </nav>
+
+      <!-- Mobile Hamburger -->
+      <button id="hamburgerBtn" class="lg:hidden text-white text-2xl bg-transparent border-0 cursor-pointer p-1" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!--  HERO SECTION                                                -->
+  <!-- ============================================================ -->
+  <section id="hero" class="relative w-full h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <img
+      src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=1600&q=80"
+      alt="Immersive event crowd"
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+    />
+    <!-- Overlay -->
+    <div class="absolute inset-0 hero-overlay"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      <p class="text-[var(--neon)] font-semibold tracking-[4px] text-sm uppercase mb-4 gsap-reveal">
+        — Premium Event Management —
+      </p>
+      <h1 class="heading-xl text-5xl sm:text-7xl md:text-8xl lg:text-[8rem] leading-[0.9] mb-6 gsap-reveal">
+        <span class="neon-text">WE DON'T JUST</span><br />
+        <span class="text-white">HOST EVENTS.</span>
+      </h1>
+      <p class="heading-lg text-2xl sm:text-3xl md:text-4xl text-white/80 mb-10 gsap-reveal">
+        WE ENGINEER EXPERIENCES.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 gsap-reveal">
+        <a href="#cta" class="btn-neon-solid">
+          Start Planning <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="#events" class="btn-neon-outline">
+          View Portfolio <i class="fas fa-images"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-[var(--text-secondary)] text-xs tracking-[2px] uppercase animate-pulse">
+      <span>Scroll</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  MARQUEE BANNER                                              -->
+  <!-- ============================================================ -->
+  <div class="marquee-wrapper">
+    <div class="marquee-track" id="marqueeTrack">
+      <span>✦ Karnival Anak Muda</span>
+      <span>✦ Music Festivals</span>
+      <span>✦ Brand Activations</span>
+      <span>✦ Corporate Galas</span>
+      <span>✦ Private VIP Parties</span>
+      <span>✦ Product Launches</span>
+      <span>✦ Karnival Anak Muda</span>
+      <span>✦ Music Festivals</span>
+      <span>✦ Brand Activations</span>
+      <span>✦ Corporate Galas</span>
+      <span>✦ Private VIP Parties</span>
+      <span>✦ Product Launches</span>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--  SERVICES SECTION                                            -->
+  <!-- ============================================================ -->
+  <section id="services" class="py-24 md:py-36 bg-[var(--bg-section)]">
+    <div class="container-custom">
+      <!-- Section Header -->
+      <div class="mb-16">
+        <p class="neon-text text-sm tracking-[4px] uppercase font-semibold mb-2 gsap-reveal">What We Do</p>
+        <h2 class="heading-xl text-4xl sm:text-5xl md:text-7xl gsap-reveal">Our Capabilities</h2>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 1 -->
+        <div class="service-card gsap-reveal">
+          <div class="icon-wrap"><i class="fa-regular fa-compass"></i></div>
+          <h3>Conceptualization & Design</h3>
+          <p>From raw ideas to breathtaking blueprints — we craft immersive event concepts that captivate audiences and elevate brands.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="service-card gsap-reveal">
+          <div class="icon-wrap"><i class="fa-regular fa-gear"></i></div>
+          <h3>Logistics & Production</h3>
+          <p>End-to-end execution handled with military precision. Venue sourcing, staging, lighting, sound — we deliver flawlessly.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="service-card gsap-reveal">
+          <div class="icon-wrap"><i class="fa-regular fa-star"></i></div>
+          <h3>Talent & Artist Management</h3>
+          <p>Secure world-class performers, speakers, and VIP talent. We handle bookings, riders, and on-site coordination seamlessly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  FEATURED EVENTS                                             -->
+  <!-- ============================================================ -->
+  <section id="events" class="py-24 md:py-36 bg-[var(--bg-dark)]">
+    <div class="container-custom">
+      <!-- Section Header -->
+      <div class="mb-16">
+        <p class="neon-text text-sm tracking-[4px] uppercase font-semibold mb-2 gsap-reveal">Our Work</p>
+        <h2 class="heading-xl text-4xl sm:text-5xl md:text-7xl gsap-reveal">Latest Triumphs</h2>
+      </div>
+
+      <!-- Grid / Masonry-like layout -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Event 1 -->
+        <div class="event-card gsap-reveal sm:col-span-2 sm:row-span-2">
+          <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80" alt="Neon Festival 2025" loading="lazy" />
+          <div class="event-overlay">
+            <h4>Neon Festival 2025</h4>
+            <p>March 15 · 12,000+ Attendees</p>
+            <a href="#">View Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Event 2 -->
+        <div class="event-card gsap-reveal">
+          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80" alt="Corporate Summit" loading="lazy" />
+          <div class="event-overlay">
+            <h4>Global Tech Summit</h4>
+            <p>Feb 28 · 3,500+ Attendees</p>
+            <a href="#">View Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Event 3 -->
+        <div class="event-card gsap-reveal">
+          <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80" alt="VIP Gala" loading="lazy" />
+          <div class="event-overlay">
+            <h4>Platinum VIP Gala</h4>
+            <p>Jan 20 · 800 VIP Guests</p>
+            <a href="#">View Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Event 4 -->
+        <div class="event-card gsap-reveal">
+          <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&q=80" alt="Brand Activation" loading="lazy" />
+          <div class="event-overlay">
+            <h4>Mercedes E-Class Launch</h4>
+            <p>Dec 10 · 2,000+ Attendees</p>
+            <a href="#">View Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Event 5 -->
+        <div class="event-card gsap-reveal">
+          <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&q=80" alt="Music Festival" loading="lazy" />
+          <div class="event-overlay">
+            <h4>Echoes Music Festival</h4>
+            <p>Nov 5 · 25,000+ Attendees</p>
+            <a href="#">View Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  ABOUT STRIP (brief)                                         -->
+  <!-- ============================================================ -->
+  <section id="about" class="py-24 md:py-28 bg-[var(--bg-section)]">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="gsap-reveal">
+          <p class="neon-text text-sm tracking-[4px] uppercase font-semibold mb-3">About Us</p>
+          <h2 class="heading-xl text-4xl sm:text-5xl md:text-6xl mb-6">
+            Built by<br />
+            <span class="neon-text">Visionaries</span>
+          </h2>
+          <p class="text-[var(--text-secondary)] text-lg leading-relaxed mb-6">
+            ARIO was founded in Ipoh, Perak by a team of producers, designers, and strategists who believe 
+            that every gathering should be a spectacle. From Karnival Anak Muda to large-scale corporate 
+            productions, we turn ambitious ideas into unforgettable realities.
+          </p>
+          <a href="#cta" class="btn-neon-outline !inline-flex !w-fit">
+            Let's Talk <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="gsap-reveal">
+          <img
+            src="https://images.unsplash.com/photo-1531057563406-e5a7a8f10560?w=700&q=80"
+            alt="Event planning team at work"
+            class="w-full h-auto object-cover opacity-90"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  MEGA CTA                                                    -->
+  <!-- ============================================================ -->
+  <section id="cta" class="cta-section">
+    <div class="container-custom text-center relative z-10">
+      <div class="gsap-reveal">
+        <p class="text-[var(--text-secondary)] text-sm tracking-[4px] uppercase font-semibold mb-4">
+          Start Your Journey
+        </p>
+        <h2 class="heading-xl text-3xl sm:text-4xl md:text-6xl text-white mb-4">
+          Ready to Make Noise?
+        </h2>
+        <p class="heading-lg text-3xl sm:text-4xl md:text-5xl neon-text mb-10">
+          Let's Talk.
+        </p>
+        <a href="mailto:hello@arioevents.com" class="cta-email-link">
+          hello@arioevents.com
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  FOOTER                                                      -->
+  <!-- ============================================================ -->
+  <footer id="contact" class="bg-[var(--bg-dark)] border-t border-white/5 py-12">
+    <div class="container-custom">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <!-- Logo & Copyright -->
+        <div class="text-center md:text-left">
+          <a href="#" class="text-xl font-bold tracking-[3px] uppercase no-underline text-white inline-flex items-center gap-2 mb-2">
+            <span class="text-[var(--neon)] text-2xl">◈</span>
+            <span class="font-[var(--font-heading)]">ARIO</span>
+            <span class="text-[var(--text-secondary)] font-normal text-sm">EVENTS</span>
+          </a>
+          <p class="text-[var(--text-secondary)] text-xs tracking-[1px]">
+            &copy; 2026 ARIO EVENTS. All rights reserved.
+          </p>
+        </div>
+
+        <!-- Social Icons -->
+        <div class="flex items-center gap-3">
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-icon" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+
+        <!-- Legal links -->
+        <div class="flex items-center gap-6 text-xs text-[var(--text-secondary)] tracking-[1px] uppercase">
+          <a href="#" class="hover:text-[var(--neon)] transition-colors no-underline">Privacy Policy</a>
+          <a href="#" class="hover:text-[var(--neon)] transition-colors no-underline">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================ -->
+  <!--  JAVASCRIPT                                                  -->
+  <!-- ============================================================ -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* ── Sticky Nav ── */
+      const navbar = document.getElementById('navbar');
+
+      function handleNavScroll() {
+        if (window.scrollY > 60) {
+          navbar.classList.add('nav-scrolled');
+        } else {
+          navbar.classList.remove('nav-scrolled');
+        }
+      }
+      window.addEventListener('scroll', handleNavScroll, { passive: true });
+
+      /* ── Mobile Menu ── */
+      const hamburger = document.getElementById('hamburgerBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const closeMobile = document.getElementById('closeMobileBtn');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      function openMobile() {
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMobileFn() {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      hamburger.addEventListener('click', openMobile);
+      closeMobile.addEventListener('click', closeMobileFn);
+      mobileLinks.forEach(function(link) {
+        link.addEventListener('click', closeMobileFn);
+      });
+      // Close on backdrop click
+      mobileMenu.addEventListener('click', function(e) {
+        if (e.target === mobileMenu) closeMobileFn();
+      });
+
+      /* ── GSAP Scroll Animations (REVERSIBLE with scrub) ── */
+      function initGSAP() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero stagger — plays once on page load (no scroll reverse needed)
+        const heroEls = document.querySelectorAll('#hero .gsap-reveal');
+        if (heroEls.length) {
+          const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+          heroTl
+            .from(heroEls[0], { y: 40, opacity: 0, duration: 0.8 }, 0.2)
+            .from(heroEls[1], { y: 60, opacity: 0, duration: 0.9 }, 0.4)
+            .from(heroEls[2], { y: 60, opacity: 0, duration: 0.9 }, 0.55)
+            .from(heroEls[3], { y: 40, opacity: 0, duration: 0.7 }, 0.75);
+        }
+
+        // All other .gsap-reveal elements — scrub-based reversible animation
+        gsap.utils.toArray('.gsap-reveal').forEach(function(el) {
+          // Skip hero elements (already handled above)
+          if (el.closest('#hero')) return;
+
+          gsap.fromTo(el,
+            { y: 60, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: el,
+                start: 'top 85%',
+                end: 'top 50%',
+                scrub: 1.2,
+                toggleActions: 'play reverse play reverse',
+                invalidateOnRefresh: true
+              }
+            }
+          );
+        });
+
+        // Refresh ScrollTrigger after layout settles
+        ScrollTrigger.refresh();
+      }
+
+      // Wait for GSAP to load then init
+      if (typeof gsap !== 'undefined') {
+        initGSAP();
+      } else {
+        window.addEventListener('load', function() {
+          if (typeof gsap !== 'undefined') initGSAP();
+        });
+      }
+
+      // Also refresh after fonts and images load
+      window.addEventListener('load', function() {
+        if (typeof ScrollTrigger !== 'undefined') {
+          setTimeout(function() { ScrollTrigger.refresh(); }, 500);
+        }
+      });
+
+      /* ── Smooth anchor scroll (fallback) ── */
+      document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+          const href = anchor.getAttribute('href');
+          if (href === '#') return;
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            const offset = 80;
+            const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+          }
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>
